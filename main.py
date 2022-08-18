@@ -1,13 +1,14 @@
 from pathlib import Path
 import argparse
 import plotly
+import os.path
 from src import model as m
 from src import image as im
 from src import post_processing as pp
 from src import graph
 
 
-def main(img_path: str, width: float,height: float):
+def main(img_path: str, width: float, height: float):
     """
     Take a layer image and classify area of this images
     :param img_path: The layer images
@@ -46,21 +47,28 @@ def main(img_path: str, width: float,height: float):
 
     # Generate the main report
     image_classification_graph = graph.create_image_classification(df, img_path, score, width, height)
-    #image_classification_graph.write_html(f"{Path(img_path).stem}_ELO_area_classification.html")
+    # image_classification_graph.write_html(f"{Path(img_path).stem}_ELO_area_classification.html")
     plotly.offline.plot(image_classification_graph, auto_play=False,
                         filename=f"{Path(img_path).stem}_ELO_area_classification.html")
 
 
+def valid_file(string):
+    if not os.path.exists(string):
+        raise FileNotFoundError
+    else:
+        return string
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Classify powder layer.')
-    parser.add_argument('-i', '--img', type=str, help='Where is the layer images to classify.')
+    parser.add_argument('-i', '--img', type=valid_file, help='Where is the layer images to classify.')
     parser.add_argument('--width', type=float, help='Physical width of the image in mm.')
     parser.add_argument('--height', type=float, help='Physical height of the image in mm.')
 
     args = parser.parse_args()
 
-    #img = r"data/example.tif"
-    #width = int(125)
-    #height = int(125)
+    # img = r"data/example.tif"
+    # width = int(125)
+    # height = int(125)
     main(img_path=args.img, width=args.width, height=args.height)
-    #main(img_path=img, width=width, height=height)
+    # main(img_path=img, width=width, height=height)
