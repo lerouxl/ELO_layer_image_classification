@@ -44,8 +44,8 @@ The user must update there size to fit their uses.
 
 ## Results example and screenshots:
 Example html results files can be found at the root of this repo:
-- example_Classification_chart.html
-- example_ELO_area_classification.html
+- [example_Classification_chart.html](https://github.com/lerouxl/ELO_layer_image_classification/blob/main/example_Classification_chart.html)
+- [example_ELO_area_classification.html](https://github.com/lerouxl/ELO_layer_image_classification/blob/main/example_ELO_area_classification.html)
 
 Here are some screenshots:
 
