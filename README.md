@@ -5,9 +5,9 @@ This script is made of the Manuela dashboard to evaluate the printing quality us
 Printing layer ELO images are sliced in sub images of 5mm by 5mm (125px by 125px) and then classified in 5 categories:
 - *powder*: The classified area is unmelted powder.
 - *corner*: The classified area is the border between powder and a part.
-- *porous*: The classified area is a porous part, not enought energy was given to fully melt the powder.
+- *porous*: The classified area is a porous part, not enough energy was given to fully melt the powder.
 - *good*: The classified area was well printed, not defect were detected.
-- *bulging*: The classified area is bulging, too mutch energy was given during the printing.
+- *bulging*: The classified area is bulging, too much energy was given during the printing.
 
 Two report are generated, the `Classification_chart.html` and the `ELO_area_classification.html`.
 The first one is showing the percentage of each class in a pie chart.
