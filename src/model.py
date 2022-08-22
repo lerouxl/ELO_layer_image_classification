@@ -40,5 +40,6 @@ def predict(model: ImageClassifier, images: torch.Tensor) -> torch.Tensor:
     :return:
     """
     prediction = model(images)
-    prediction = torch.exp(prediction)  # Make all positive
+    softmax = torch.nn.Softmax(dim=1)
+    prediction = softmax(prediction)
     return prediction
