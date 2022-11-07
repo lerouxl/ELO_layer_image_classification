@@ -34,7 +34,7 @@ Using a command line, launch `main.py` to classify one layer images.
 - `--width`: The physical width of the image.
 - `--height`: The physical height of the image.
 
-`python main.py --img data/example.tiff --width 200 --height 200`
+`python main.py --img data/example.tif --width 200 --height 200`
 This will generate two results files:
 - ***"image name"*_Classification_chart.html**: A pie chart showing the proportion of each class.
 - ***"image name"*_ELO_area_classification.html**: The layer ELO images with transparent squares showing the area classification.
