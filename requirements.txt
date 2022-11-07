@@ -4,4 +4,4 @@ lightning-flash[image]==0.7.5
 plotly==5.10.0
 numpy==1.*
 pandas==1.*
-opencv-python=4.*
+opencv-python==4.*
