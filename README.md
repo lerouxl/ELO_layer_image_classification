@@ -73,13 +73,17 @@ dataset_name
 |   |___>class_2
 |   |___>class_3
 |   |___>class_4
-|   |___>class_4 
+|   |___>class_5 
+|         |___> *.jpg
+|         |___> *.jpg
 |_>val
    |___>class_1
    |___>class_2
    |___>class_3
    |___>class_4
-   |___>class_4 
+   |___>class_5 
+         |___> *.jpg
+         |___> *.jpg
 ```
 
 Then the `train_dataloader` and `val_dataloader` must be updated to train the AI on the new dataset. For this, the image folder must be modified to be:
