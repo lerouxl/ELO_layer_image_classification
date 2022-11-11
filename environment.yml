@@ -1,0 +1,20 @@
+name: ELO
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.7.*
+  - pyyaml==5.*
+  - pip
+  - lightning-flash[image]==0.7.*
+  - plotly==5.*
+  - numpy==1.*
+  - pandas==1.*
+  - Pillow
+  - pytorch
+  - torchvision
+  - pip:
+    - opencv-python==4.*
+    - lightning-flash[image]
+    - jsonargparse[signatures]=4.12.* 
