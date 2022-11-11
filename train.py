@@ -21,11 +21,11 @@ def get_squeezenet():
     
     model.classifier[1] =  nn.Sequential(
         nn.Dropout(),
-        nn.Conv2d(512, 4, kernel_size=(1,1), stride=(1,1)),
+        nn.Conv2d(512, 5, kernel_size=(1,1), stride=(1,1)),
         nn.ReLU(),
         nn.AdaptiveAvgPool2d(output_size=(1, 1))
         ) 
-    model.num_classes = 4
+    model.num_classes = 5
     return model
 
 class Net(nn.Module):
