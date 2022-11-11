@@ -26,6 +26,14 @@ This script had been tested on python 3.7, and no GPU support were added.
    3. Activate it: `source venv/bin/activate` or `.\venv\Scripts\activate` on windows.
    4. Install dependencies: `pip install -r requirements.txt`.
 
+Or, use anaconda to create an environment (recomanded):
+1. Clone this GitHub repository `git clone https://github.com/lerouxl/ELO_layer_image_classification.git`.
+2. Create the conda environment environment:
+   1. With anaconda promt, go the the code repository
+   2. Create the environment: `conda env create -f environment.yml`
+   3. Activate it: `conda activate ELO`
+   4. Launch the classification or training code.
+   
 
 ## Use
 Using a command line, launch `main.py` to classify one layer images.
