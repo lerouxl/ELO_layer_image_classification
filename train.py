@@ -18,14 +18,15 @@ def get_squeezenet():
     #model = torch.hub.load('pytorch/vision:v0.10.0', 'squeezenet1_0', pretrained=True)
     model =  torchvision.models.squeezenet1_1(pretrained=True)
     set_parameter_requires_grad(model)
-    
+
+    num_classes = 5
     model.classifier[1] =  nn.Sequential(
         nn.Dropout(),
-        nn.Conv2d(512, 4, kernel_size=(1,1), stride=(1,1)),
+        nn.Conv2d(512, num_classes, kernel_size=(1,1), stride=(1,1)),
         nn.ReLU(),
         nn.AdaptiveAvgPool2d(output_size=(1, 1))
         ) 
-    model.num_classes = 4
+    model.num_classes = num_classes
     return model
 
 class Net(nn.Module):
