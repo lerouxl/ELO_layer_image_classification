@@ -1,7 +1,8 @@
-Pillow
-pyyaml==5.4.1
-lightning-flash[image]==0.7.5
-plotly==5.10.0
+pyyaml==5.*
+lightning-flash[image]==0.7.*
+plotly==5.*
 numpy==1.*
 pandas==1.*
 opencv-python==4.*
+jsonargparse[signatures]=4.12.* 
+Pillow
