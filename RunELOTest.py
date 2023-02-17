@@ -72,7 +72,7 @@ def PerformPredicition(ModelPath, CellSize, imagepath,TestImageSize,htmlreport) 
     prediction.to_csv(filename, index=False)
 
 
-if False: #__name__ == "__main__":
+if True: #__name__ == "__main__":
 #if True: #__name__ == "__main__":
     GridSplit = 3  # 3 => 3x3 split in the bulk, the sides are removed and used to create powder class and corner class images, corner class should be named "edges"
 
@@ -94,7 +94,7 @@ if False: #__name__ == "__main__":
  
     # used in terminal to check confusion matrix: tensorboard --logdir .\checkpoints\
 
-if True: #__name__ == "__main__":
+if False: #__name__ == "__main__":
 #if False: #__name__ == "__main__":
     ModelPath = r"D:\Documents\Users Files\Samuel\ELO_layer_image_classification v2\checkpoints\2023_02_16_18_32_44_grid_split_3\last.ckpt"   
     CellSize = (5.0, 70)
