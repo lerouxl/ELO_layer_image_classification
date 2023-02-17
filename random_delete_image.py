@@ -83,5 +83,5 @@ def class_balancer(folder_path):
                 file.unlink() # Remove file
 
 
-class_balancer(Path(r"data\sampled_ELO_4_class\train"))
-class_balancer(Path(r"data\sampled_ELO_4_class\val"))
+#class_balancer(Path(r"data\sampled_ELO_4_class\train"))
+#class_balancer(Path(r"data\sampled_ELO_4_class\val"))
