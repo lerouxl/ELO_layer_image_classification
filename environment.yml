@@ -1,0 +1,20 @@
+name: ELO
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.7.*
+  - pyyaml==5.*
+  - pip
+  - plotly==5.*
+  - numpy==1.*
+  - pandas==1.*
+  - Pillow
+  - pytorch
+  - torchvision
+  - tensorboard
+  - pip:
+    - opencv-python==4.*
+    - matplotlib
+    - tqdm
