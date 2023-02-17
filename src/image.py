@@ -4,48 +4,34 @@ from PIL import Image
 import cv2
 import numpy as np
 
-
-def get_image(path: str, width: float, height: float) -> Image:
+def get_image(path: str, width: float, height: float, CellSize) -> Image:
     """
     Load one image and return it as a PIL image.
+    Get image resized to the right number of pixels, to be split equally and in mm proportion of cellsize
     :param path: Path to the image to load.
     :param width: Physical width of the image in mm.
     :param height: Physical height of the image in mm.
-    :return: The PIL Image
+    :return: The Image in proportion of cellsize
     """
     image = cv2.imread(path, cv2.IMREAD_COLOR)  # uint8 image
     image = cv2.normalize(image, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-    # Images used in training had an physical dimension of 5 by 5 mm
-    # 125 px -> 5 mm
-    width_p, height_p, _ = image.shape
-    sp = (width_p / width) * 5
-    scale_width = 125 / sp
-
-    sp = (height_p / height) * 5
-    scale_height = 125 / sp
-
-    image = cv2.resize(image, dsize=( int(width_p*scale_width),
-                                      int(height_p * scale_height)))
-
-    # Rescale it to be divisible by 125 (size of the chunck)
-    width_p, height_p,_ = image.shape
-    target_w = int(round(width_p/125)) * 125
-    target_h = int(round(height_p/125)) * 125
+    # Rescale it so a pixel of the new image has the same size as what was used
+    # and for it to be divisible by PixelW and PixelH (size of the cells)
+    target_w = int(round(int(CellSize[1]*width/CellSize[0])/CellSize[1])) * CellSize[1]
+    target_h = int(round(int(CellSize[1]*height/CellSize[0])/CellSize[1])) * CellSize[1]
 
     image = cv2.resize(image,dsize=(target_w,target_h))
 
-    image = Image.fromarray((image * 255).astype(np.uint8))
+    image = Image.fromarray((image * 255).astype(np.uint8)) # why 255?
 
     return image
 
-
-def extract_sub_images(image: Image, crop_size=(125, 125)):
+def extract_sub_images(image: Image, CellSizePx):
     """
     Extract sub images form a PIL image and return them in a list.
     :param image: PIL images to extract crop.
-    :param crop_size: tuple, x and y size of the sub images.
+    :param PixelW and PixelH: tuple, x and y size of the sub images.
     :return: 2 list. The list of the images and there position on the images
     """
     image_size = image.size
@@ -54,10 +40,10 @@ def extract_sub_images(image: Image, crop_size=(125, 125)):
     images = []
     img_pos = []
     i = 0
-    for bottom in range(crop_size[0], image_size[0] + crop_size[0], crop_size[0]):
+    for bottom in range(CellSizePx, image_size[0] + CellSizePx, CellSizePx):
         left = 0
         j = 0
-        for right in range(crop_size[1], image_size[1] + crop_size[1], crop_size[1]):
+        for right in range(CellSizePx, image_size[1] + CellSizePx, CellSizePx):
             images.append(image.crop((left, top, right, bottom)))
             img_pos.append((i, j))
             left = right
@@ -66,7 +52,6 @@ def extract_sub_images(image: Image, crop_size=(125, 125)):
         i = i + 1
 
     return images, img_pos
-
 
 def to_torch(images: list, transform: T.transforms.Compose) -> torch.Tensor:
     """
