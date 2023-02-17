@@ -4,7 +4,6 @@ import plotly.express as px
 from src import image as im
 import numpy as np
 
-
 def create_pie(df: pd.DataFrame):
     """
     Create a pie chart of the class repartition
@@ -27,10 +26,10 @@ def create_pie(df: pd.DataFrame):
                            "bulging": "blue"
                        })
     pie_chart.update_layout(title_x=0.5)
+
     return pie_chart
 
-
-def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array, width, height):
+def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array, width, height, CellSize):
     """
     Create the main report
     :param score: score matrix from the model prediction
@@ -38,17 +37,16 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
     :param df: All the resutls
     :param width: Physical width of the image
     :param height: Physical height of the image
+    :param CellSize: Size of tiles to be classified
     :return:
     """
     # Add market size parameters
     df["square size"] = 0.1
     df_copy = df
-
     sizes = list(range(2, 30, 1)) + list(range(30, 200, 5))
     for i in sizes:
         df_copy["square size"] = i / 10
         df = pd.concat([df, df_copy])
-
     # Create the raw figure with fix dimension
     fig = px.scatter(df, x="x", y="y", color="classification_name",
                      custom_data=["classification_name", "powder", "corner", "good", "porous", "bulging"],
@@ -67,13 +65,8 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
                          "porous": "red",
                          "bulging": "blue"},
                      )
-
-    # Set title
-    fig.update_layout(title_text="ELO areas classification", title_x=0.5)
-
-    # Set legend title
-    fig.update_layout(legend_title_text='Classification:')
-
+    fig.update_layout(title_text="ELO areas classification", title_x=0.5)   # Set title
+    fig.update_layout(legend_title_text='Classification:')                  # Set legend title
     # Set the legend position
     fig.update_layout(legend=dict(
         yanchor="top",
@@ -82,10 +75,8 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
         x=0.5,
         orientation="h"
     ))
-
-    image = im.get_image(img_path, width, height)
+    image = im.get_image(img_path, width, height, CellSize)
     image = image.transpose(PIL.Image.FLIP_TOP_BOTTOM)
-
     fig.add_layout_image(
         dict(
             source=image,
@@ -100,7 +91,6 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
             layer="below"
         )
     )
-
     # Set the array ticks
     fig.update_layout(
         xaxis=dict(
@@ -118,7 +108,6 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
         scaleanchor="x",
         scaleratio=1,
     )
-
     # Update the hover
     CUSTOM_HOVERTEMPLATE = "<br>".join([
         "Classification: <b>%{customdata[0]}</b>",
@@ -128,21 +117,15 @@ def create_image_classification(df: pd.DataFrame, img_path: str, score: np.array
         "Porous score: %{customdata[4]}",
         "Bulging score: %{customdata[5]}"
     ])
-
     fig.update_traces(
         hovertemplate=CUSTOM_HOVERTEMPLATE
     )
     for frame in fig.frames:
         for data in frame.data:
             data.hovertemplate = CUSTOM_HOVERTEMPLATE
-
-    # Hide x axis
-    fig.update_xaxes(visible=False, showgrid=True, showticklabels=False)
-
-    # Hide y axis
-    fig.update_yaxes(visible=False, showgrid=True, showticklabels=False)
-
-    # Remove layout
-    fig.update_layout(template="plotly_white")
+    
+    fig.update_xaxes(visible=False, showgrid=True, showticklabels=False) # Hide x axis
+    fig.update_yaxes(visible=False, showgrid=True, showticklabels=False) # Hide y axis
+    fig.update_layout(template="plotly_white")     # Remove layout
 
     return fig
