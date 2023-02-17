@@ -75,12 +75,12 @@ def PerformPredicition(ModelPath, CellSize, imagepath,TestImageSize,htmlreport) 
 if True: #__name__ == "__main__":
 #if True: #__name__ == "__main__":
     GridSplit = 3  # 3 => 3x3 split in the bulk, the sides are removed and used to create powder class and corner class images, corner class should be named "edges"
-
-    CellSize = (5.0, 70)
-    #CellSize = SliceImages(GridSplit)
+    print(f"GridSplit: {GridSplit}")
+    #CellSize = (5.0, 70)
+    CellSize = SliceImages(GridSplit)
     # Make all class have the same number of images.
-    #class_balancer(r"data\ELO_jpg_subimages_4_class\train")
-    #class_balancer(r"data\ELO_jpg_subimages_4_class\val")
+    class_balancer(r"data\ELO_jpg_subimages_4_class\train")
+    class_balancer(r"data\ELO_jpg_subimages_4_class\val")
     print("CellSize: ", CellSize)
 
     #CellSize = (5,70) # (mm, pixels) # to test the end without re-doing a split
