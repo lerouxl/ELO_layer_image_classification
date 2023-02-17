@@ -2,17 +2,16 @@ import torch
 import numpy as np
 import pandas as pd
 
-
-def generate_score(prediction: torch.Tensor, image_size: tuple, crop_size: tuple, img_pos: list) -> np.array:
+def generate_score(prediction: torch.Tensor, image_size: tuple, CellSizePx, img_pos: list) -> np.array:
     """
     Generate a table of prediction scores, this table can be superposed to the original images.
     :param prediction: model prediction
     :param image_size: tuple of the original dimension
-    :param crop_size: tuple of the size of the sub images
+    :param PixelW and PixelH: tuple size of the sub images.
     :param img_pos: list of the position of all sub images
     :return:
     """
-    pred = torch.zeros((image_size[0] // crop_size[0], image_size[1] // crop_size[1], 5))
+    pred = torch.zeros((image_size[0] // CellSizePx, image_size[1] // CellSizePx, 5))
 
     for pos, pred_ in zip(img_pos, prediction):
         pred[pos] = pred_
@@ -43,7 +42,6 @@ def classification_name(best_id: int, table: list) -> str:
     best_id = int(best_id)
     return table[best_id]
 
-
 def pandas_results(classification: np.array, score: np.array, class_names: list) -> pd.DataFrame:
     """
     Transform the results to a pandas dataframe usable by plotly for display
@@ -60,10 +58,10 @@ def pandas_results(classification: np.array, score: np.array, class_names: list)
             x.append(j)
             y.append(i)
             class_.append(str(classification[i][j]))
-            bulging.append(str(score[0][i][j]))
-            edges.append(str(score[1][i][j]))
-            good.append(str(score[2][i][j]))
-            porous.append(str(score[3][i][j]))
+            good.append(str(score[0][i][j]))
+            porous.append(str(score[1][i][j]))
+            bulging.append(str(score[2][i][j]))
+            edges.append(str(score[3][i][j]))
             powder.append(str(score[4][i][j]))
 
     df = pd.DataFrame(np.array([x, y, class_, bulging, edges, good, porous, powder]).T,

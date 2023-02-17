@@ -1,4 +1,4 @@
-from flash.image import ImageClassifier
+from train import ImageClassifier
 import torchvision.transforms as T
 import torch
 
@@ -10,7 +10,7 @@ def get_model(path: str) -> ImageClassifier:
     :param path: path where is saved the model
     :return: ImageClassifier model with loaded weitgh.
     """
-    model = ImageClassifier.load_from_checkpoint(r"model/image_classification_model.pt")
+    model = ImageClassifier.load_from_checkpoint(path)
 
     for p in model.parameters():
         p.requires_grad = False
@@ -24,11 +24,17 @@ def get_transform() -> T.transforms.Compose:
     Return the transform function to process the images for the model
     :return: transform function
     """
-    transform = T.Compose([T.Resize((196, 196)),
+    transform =T.Compose([ T.Resize((224,224)),#T.Resize((196, 196)),
                            T.ToTensor(),
                            T.ConvertImageDtype(torch.float),
-                           T.Normalize(mean=(0.485, 0.456, 0.406),
-                                       std=(0.229, 0.224, 0.225))])
+                           #T.Normalize(mean=(0.485, 0.456, 0.406),
+                           #            std=(0.229, 0.224, 0.225))
+                           ])
+    #T.Compose([T.Resize((196, 196)),
+    #                       T.ToTensor(),
+    #                       T.ConvertImageDtype(torch.float),
+    #T.Normalize(mean=(0.485, 0.456, 0.406),
+    #            std=(0.229, 0.224, 0.225))
     return transform
 
 
