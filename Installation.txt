@@ -1,0 +1,7 @@
+In the right folder:
+
+conda env create -f environment.yml
+conda activate ELO
+
+
+
