@@ -1,0 +1,9 @@
+data/
+lightning_logs/
+checkpoints/
+.idea/
+.vscode/
+*.html
+__pycache__/
+Old Code/
+*.csv
