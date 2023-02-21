@@ -43,6 +43,7 @@ Expected output:
 from pathlib import Path
 import random
 import time
+import os
 
 def class_balancer(folder_path):
     folder_path = Path(folder_path)
@@ -81,12 +82,9 @@ def class_balancer(folder_path):
             to_del = random.sample(class_images, nb_to_del)
 
             for file in to_del:
-                try:
-                    file.unlink() # Remove file
-                    time.sleep(300/1000)
-                except:
-                    print(f"Failed to delet file {file}")
-
+                os.remove(file)
+                #file.unlink() # Remove file
+                time.sleep(300/1000)
 
 #class_balancer(Path(r"data\sampled_ELO_4_class\train"))
 #class_balancer(Path(r"data\sampled_ELO_4_class\val"))
