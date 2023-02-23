@@ -103,7 +103,7 @@ def SplitImages(step,GridSplit,BorderSize,dataset,outputfolder,validation_percen
 
     #Split files between the train and validation dataset
     to_validation = all_tif[0:number_validation]  # take paths of validation images
-    to_train = all_tif[number_validation:number_train] # take paths of training images
+    to_train = all_tif[number_validation:] # take paths of training images
     len(to_validation), len(to_train)
 
     #Create small images
