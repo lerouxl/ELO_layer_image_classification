@@ -5,11 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from train import TrainNN
 from random_delete_image import class_balancer
+from pathlib import Path 
+
 
 def SliceImages(GridSplit):
     print("Split Images")
-    dataset = Path(r"data/ELO")
-    outputfolder = Path(r"data/ELO_jpg_subimages_4_class")
+    dataset = Path(r"data") / "ELO"
+    outputfolder = Path(r"data") / "ELO_jpg_subimages_4_class"
     img_size = (352, 352)  # Size of images in dataset folder
     PBorder = 0.2  # Percentage of images containing the border on each side. 0.2 = 20%
     # validation_percent = 0.1 # between 0.00 and 1.00 - Original percentage
@@ -31,9 +33,9 @@ def PerformTraining(CellSize,max_epochs, checkpoint_suffix="", learning_rate=0.0
     # train new model
     print("Train New Model")
     accelerator  = "gpu"  # "gpu" or "cpu": define if the training is done on the graphic card (faster) or the cpu
-    TrainPath = r"./data/ELO_jpg_subimages_4_class/train"
-    ValPath = r"./data/ELO_jpg_subimages_4_class/val"
-    TestPath = r"./data/ELO_jpg_subimages_4_class/val"
+    TrainPath = Path("data")/ "ELO_jpg_subimages_4_class" / "train"
+    ValPath = Path("data")/"ELO_jpg_subimages_4_class"/"val"
+    TestPath = Path("data")/"ELO_jpg_subimages_4_class"/"val"
     nb_classes = 5
     ModelPath = TrainNN(accelerator, TrainPath,  ValPath, TestPath, max_epochs, nb_classes, 
                         CellSize=CellSize, suffix=checkpoint_suffix,learning_rate=learning_rate) 
@@ -74,14 +76,15 @@ def PerformPredicition(ModelPath, CellSize, imagepath,TestImageSize,htmlreport) 
 
 if True: #__name__ == "__main__":
 #if True: #__name__ == "__main__":
-    GridSplit = 3  # 3 => 3x3 split in the bulk, the sides are removed and used to create powder class and corner class images, corner class should be named "edges"
+    GridSplit = 5  # 3 => 3x3 split in the bulk, the sides are removed and used to create powder class and corner class images, corner class should be named "edges"
     print(f"GridSplit: {GridSplit}")
     #CellSize = (5.0, 70)
     CellSize = SliceImages(GridSplit)
     # Make all class have the same number of images.
-    class_balancer(r"data\ELO_jpg_subimages_4_class\train")
-    class_balancer(r"data\ELO_jpg_subimages_4_class\val")
     print("CellSize: ", CellSize)
+    class_balancer(Path("data")/"ELO_jpg_subimages_4_class"/"train")
+    class_balancer(Path("data")/"ELO_jpg_subimages_4_class"/"val")
+    
 
     #CellSize = (5,70) # (mm, pixels) # to test the end without re-doing a split
     max_epochs = 80 # Maximal number of training epoch
@@ -90,7 +93,7 @@ if True: #__name__ == "__main__":
     TestImageSize = (25,25) # Size of new tested image in mm
 
     print(f"Apply the best model : {ModelPath}")
-    PerformPredicition(ModelPath, CellSize, "data/11-03-44_09.jpg", TestImageSize, htmlreport=True) 
+    PerformPredicition(ModelPath, CellSize, Path("data")/"11-03-44_09.jpg", TestImageSize, htmlreport=True) 
  
     # used in terminal to check confusion matrix: tensorboard --logdir .\checkpoints\
 
